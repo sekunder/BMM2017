@@ -17,11 +17,11 @@ class StimulusGenerator:
 		self.stim_x = width
 		self.stim_y = height
 
-	def generate_grayscale(self):
+	def generate_grayscale(self, bg=127):
 		# first create a blank gray canvas
 		img_out = Image.new('L', (self.stim_x, self.stim_y))
 		img_draw = ImageDraw.Draw(img_out)
-		img_draw.rectangle([0, 0, self.stim_x, self.stim_y], fill=127)
+		img_draw.rectangle([0, 0, self.stim_x, self.stim_y], fill=bg)
 		# now generate a random coordinate for the upper left corner uniformly
 		# so that the bounding box is still fully contained in the resulting image
 		x, y = rand.randint(self.stim_x - self.obj_x), rand.randint(self.stim_y - self.obj_y)
