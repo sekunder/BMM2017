@@ -79,7 +79,8 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 	"""Take a given data set (e.g. a stack of images) and embed them in a larger canvas."""
 	n_batch = data.shape[0]
 	if data_format == 'channels_last':
-		obj_w,obj_h = data.shape[1:3]
+		# obj_w,obj_h = data.shape[1:3]
+		obj_w,obj_h = (28, 28) # hardcoding this to check why shapes are weird
 		w_idx, h_idx = 1,2
 	else:
 		print("Channels first, aborting")
@@ -87,15 +88,21 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 		# obj_w,obj_h = data.shape[2:4]
 		# w_idx, h_idx = 2,3
 
-	new_data = np.zeros((n_batch,)+img_size, dtype=data.dtype)
+	new_data = np.zeros((n_batch,)+img_size+(1,), dtype=data.dtype)
 	obj_centers = np.zeros((n_batch,2))
 	for batch in range(n_batch):
 		if obj_pos == 'random':
-			x = obj_box[0] + rand.randint(obj_box[2] - obj_box[0])
-			y = obj_box[1] + rand.randint(obj_box[3] - obj_box[1])
+			# place object at random
+			x = obj_box[0] + rand.randint(obj_box[2] - obj_w)
+			y = obj_box[1] + rand.randint(obj_box[3] - obj_h)
+		elif len(obj_pos) > 2:
+			# assume obj_pos is an array with shape (n_batch,2)
+			x = obj_pos[batch,0] - obj_w/2
+			y = obj_pos[batch,1] - obj_h/2
 		else:
+			# assume obj_pos is a tuple with two elements
 			x,y = obj_pos
-		new_data[batch,x:(x+obj_w),y:(y+obj_w),1] = data[batch,:,:,1]
+		new_data[batch,x:(x+obj_w),y:(y+obj_h),0] = data[batch,:,:,0]
 		obj_centers[batch,:] = [x + obj_w/2, y+obj_h/2]
 
 	return new_data, obj_centers
