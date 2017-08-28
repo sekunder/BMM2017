@@ -13,6 +13,7 @@ import os
 ### Data loading - MNIST
 ################################################################################
 
+print "Loading MNIST data for training"
 batch_size = 128
 num_classes = 10
 epochs = 1 # FOR TESTING, only 1 epoch.
@@ -22,6 +23,7 @@ epochs = 1 # FOR TESTING, only 1 epoch.
 # set shapes appropriately
 stim_shape = (64,64)
 channels = 1 # luminance only
+print "Embedding images into %d x %d canvases" % stim_shape
 
 # reminder to self - adding tuples together concatenates them in python
 if K.image_data_format() == 'channels_first':
@@ -83,10 +85,12 @@ model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, val
 
 datestring = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 output_dir = os.path.join(os.getcwd(),"model")
-print("Attempting to save weights to ", output_dir, datestring)
+print "Attempting to save weights to ", os.path.join(output_dir, datestring)
 model.save_weights(os.path.join(output_dir,datestring + ".h5"))
 
 score = model.evaluate(x_test, y_test, verbose=1)
+print "Test loss:", score[0]
+print "Test accuracy:", score[1]
 
 
 
