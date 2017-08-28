@@ -10,6 +10,13 @@ from time import gmtime, strftime
 import os
 
 ################################################################################
+### Misc metadata
+################################################################################
+datestring = strftime("%Y%m%d%H%M%S", gmtime())
+
+print "Training network on %s" % datestring
+
+################################################################################
 ### Data loading - MNIST
 ################################################################################
 
@@ -42,9 +49,10 @@ x_train /= 255
 x_test /= 255
 
 # expand canvas and place digits randomly
-print "x_train.shape: ", x_train.shape
+print "Before enlarging: x_train.shape: ", x_train.shape
 x_train, obj_pos_train = build_dataset(x_train, img_size=stim_shape, obj_box=(0,0,32,32), data_format=K.image_data_format())
 x_test, obj_pos_test = build_dataset(x_test, img_size=stim_shape, data_format=K.image_data_format())
+print "After englarging: x_train.shape: ", x_train.shape
 
 # convert class vectors to one-hot class matrices
 y_train = to_categorical(y_train, num_classes)
@@ -64,7 +72,7 @@ n_dense = 1024
 
 model = Sequential([
 	Conv2D(n_filter1, kernel_size=k_size1, strides=stride1, padding='same', activation='relu', input_shape=input_shape),
-	MaxPooling2D(), # fun fact, the default value for pool size is (2,2)
+	# MaxPooling2D(), # fun fact, the default value for pool size is (2,2)
 	Conv2D(n_filter2, k_size2, strides=stride2, padding='same', activation='relu'),
 	MaxPooling2D(),
 	Conv2D(n_filter3, k_size3, strides=stride3, padding='same', activation='relu'),
@@ -77,20 +85,22 @@ model = Sequential([
 
 model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['accuracy'])
 
+print "Model layers: ", model.layers
+
 ################################################################################
 ### Fit the model
 ################################################################################
 
 model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(x_test, y_test))
 
-datestring = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 output_dir = os.path.join(os.getcwd(),"model")
 print "Attempting to save weights to ", os.path.join(output_dir, datestring)
 model.save_weights(os.path.join(output_dir,datestring + ".h5"))
 
 score = model.evaluate(x_test, y_test, verbose=1)
+print ""
 print "Test loss:", score[0]
-print "Test accuracy:", score[1]
+print "Test accuracy (%):", score[1] * 100
 
 
 
