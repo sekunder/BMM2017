@@ -2,13 +2,14 @@ import keras
 import keras.backend as K
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Conv2D, Flatten, MaxPooling2D
-from keras.optimizers import Adam
+from keras.optimizers import Adam, Adadelta
 from keras.datasets import mnist
 from keras.utils import to_categorical
 from stimulus import build_dataset
 from time import gmtime, strftime
 import datetime
 import os
+import sys
 import numpy as np
 
 ################################################################################
@@ -16,7 +17,9 @@ import numpy as np
 ################################################################################
 # datestring = strftime("%Y%m%d%H%M%S", gmtime())
 datestring = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+model_file_format = "h5"
 
+print "========== BEGIN TRAINING =========="
 print "Training network on %s" % datestring
 
 
@@ -32,7 +35,7 @@ if not os.path.isdir(model_output_dir):
 print "Loading MNIST data for training"
 batch_size = 128
 num_classes = 10
-epochs = 2 # FOR TESTING, only 1 epoch.
+epochs = 10 # FOR TESTING, only 1 epoch.
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -58,12 +61,16 @@ x_train /= 255
 x_test /= 255
 
 # expand canvas and place digits randomly
-print "Before enlarging: x_train.shape: ", x_train.shape
+print "Before enlarging: x_train.shape:", x_train.shape
 x_train, obj_pos_train = build_dataset(x_train, img_size=stim_shape, obj_box=(0,0,64,64), data_format=K.image_data_format())
 x_test, obj_pos_test = build_dataset(x_test, img_size=stim_shape, data_format=K.image_data_format())
-print "After englarging: x_train.shape: ", x_train.shape
-np.save(os.path.join(model_output_dir, datestring + "_obj_pos_train"), obj_pos_train)
-np.save(os.path.join(model_output_dir, datestring + "_obj_pos_test"), obj_pos_test)
+print "After englarging: x_train.shape:", x_train.shape
+obj_pos_train_filename = "obj_pos_train_" + datestring
+obj_pos_test_filename = "obj_pos_test_" + datestring
+print "Saving training object positions:", os.path.join(model_output_dir, obj_pos_train_filename)
+print "Saving testing object positions: ", os.path.join(model_output_dir, obj_pos_test_filename)
+np.save(os.path.join(model_output_dir, obj_pos_train_filename), obj_pos_train)
+np.save(os.path.join(model_output_dir, obj_pos_test_filename), obj_pos_test)
 
 # convert class vectors to one-hot class matrices
 y_train = to_categorical(y_train, num_classes)
@@ -83,7 +90,7 @@ n_dense = 1024
 
 model = Sequential([
 	Conv2D(n_filter1, kernel_size=k_size1, strides=stride1, padding='same', activation='relu', input_shape=input_shape),
-	# MaxPooling2D(), # fun fact, the default value for pool size is (2,2)
+	MaxPooling2D(), # fun fact, the default value for pool size is (2,2)
 	Conv2D(n_filter2, k_size2, strides=stride2, padding='same', activation='relu'),
 	MaxPooling2D(),
 	Conv2D(n_filter3, k_size3, strides=stride3, padding='same', activation='relu'),
@@ -94,23 +101,33 @@ model = Sequential([
 	Activation('softmax')
 ])
 
-model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+# model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['accuracy'])
 
-print "Model layers: ", model.summary()
+print "--- MODEL SUMMARY ---"
+print model.summary()
 
 ################################################################################
 ### Fit the model
 ################################################################################
 
+print "Training network [batch size: %d, epochs: %d]" % batch_size, epochs
+sys.stdout.flush() # otherwise, buffer doesn't flush until training is complete, making it difficult to tell if it's running.
+
 model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=2, validation_data=(x_test, y_test))
 
-print "Attempting to save weights to ", os.path.join(model_output_dir, datestring)
-model.save_weights(os.path.join(model_output_dir, datestring + ".h5"))
+weights_filename = os.path.join(model_output_dir, "weights" + datestring + "." + model_file_format)
+model_filename = os.path.join(model_output_dir, "model" + datestring + "." + model_file_format)
+# print "Attempting to save weights to ", os.path.join(model_output_dir, datestring + "weights")
+# model.save_weights(os.path.join(model_output_dir, datestring + ".h5"))
+print "Saving model:", model_filename
+model.save(model_filename)
 
 score = model.evaluate(x_test, y_test, verbose=2)
 print ""
 print "Test loss:", score[0]
 print "Test accuracy (%):", score[1] * 100
+print "----------  END TRAINING  ----------"
 
 
 
