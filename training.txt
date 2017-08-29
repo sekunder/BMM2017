@@ -1,0 +1,130 @@
+========== BEGIN TRAINING ==========
+Training network on 20170829133103
+Loading MNIST data for training
+Embedding images into 64 x 64 canvases
+Before enlarging: x_train.shape: (60000, 28, 28, 1)
+After englarging: x_train.shape: (60000, 64, 64, 1)
+Saving training object positions: /Users/sekunder/python/BMM2017/model/obj_pos_train_20170829133103
+Saving testing object positions:  /Users/sekunder/python/BMM2017/model/obj_pos_test_20170829133103
+--- MODEL SUMMARY ---
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 64, 64, 16)        160       
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 32, 32, 16)        0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 32, 32, 32)        4640      
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 16, 16, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 16, 16, 64)        18496     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 8, 8, 64)          0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 4096)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 1024)              4195328   
+_________________________________________________________________
+dense_2 (Dense)              (None, 10)                10250     
+_________________________________________________________________
+activation_1 (Activation)    (None, 10)                0         
+=================================================================
+Total params: 4,228,874
+Trainable params: 4,228,874
+Non-trainable params: 0
+_________________________________________________________________
+None
+Training network [batch size: 128, epochs: 10]
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/10
+434s - loss: 1.0405 - acc: 0.6474 - val_loss: 0.2712 - val_acc: 0.9141
+Epoch 2/10
+410s - loss: 0.2053 - acc: 0.9380 - val_loss: 0.1414 - val_acc: 0.9571
+Epoch 3/10
+410s - loss: 0.1312 - acc: 0.9602 - val_loss: 0.1173 - val_acc: 0.9617
+Epoch 4/10
+409s - loss: 0.0966 - acc: 0.9706 - val_loss: 0.0962 - val_acc: 0.9701
+Epoch 5/10
+409s - loss: 0.0760 - acc: 0.9762 - val_loss: 0.0907 - val_acc: 0.9703
+Epoch 6/10
+410s - loss: 0.0600 - acc: 0.9816 - val_loss: 0.0842 - val_acc: 0.9725
+Epoch 7/10
+411s - loss: 0.0484 - acc: 0.9849 - val_loss: 0.0803 - val_acc: 0.9731
+Epoch 8/10
+411s - loss: 0.0383 - acc: 0.9882 - val_loss: 0.0791 - val_acc: 0.9762
+Epoch 9/10
+411s - loss: 0.0316 - acc: 0.9899 - val_loss: 0.0828 - val_acc: 0.9734
+Epoch 10/10
+410s - loss: 0.0249 - acc: 0.9926 - val_loss: 0.0823 - val_acc: 0.9760
+Saving model: /Users/sekunder/python/BMM2017/model/model20170829133103.h5
+
+Test loss: 0.0823290023222
+Test accuracy (%): 97.6
+----------  END TRAINING  ----------
+============================== BEGIN TRAINING ==============================
+Training network on 20170829151236
+Loading MNIST data for training
+Embedding images into 64 x 64 canvases
+Before enlarging: x_train.shape: (60000, 28, 28, 1)
+After englarging: x_train.shape: (60000, 64, 64, 1)
+Saving training object positions: /Users/sekunder/python/BMM2017/model/obj_pos_train_20170829151236
+Saving testing object positions:  /Users/sekunder/python/BMM2017/model/obj_pos_test_20170829151236
+--- MODEL SUMMARY ---
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 64, 64, 16)        160       
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 32, 32, 16)        0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 32, 32, 32)        4640      
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 16, 16, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 16, 16, 64)        18496     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 8, 8, 64)          0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 8, 8, 64)          0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 4096)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 1024)              4195328   
+_________________________________________________________________
+dense_2 (Dense)              (None, 10)                10250     
+_________________________________________________________________
+activation_1 (Activation)    (None, 10)                0         
+=================================================================
+Total params: 4,228,874
+Trainable params: 4,228,874
+Non-trainable params: 0
+_________________________________________________________________
+None
+Training network [batch size: 128, epochs: 10]
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/10
+428s - loss: 1.0451 - acc: 0.6419 - val_loss: 0.2539 - val_acc: 0.9237
+Epoch 2/10
+416s - loss: 0.2387 - acc: 0.9266 - val_loss: 0.1444 - val_acc: 0.9544
+Epoch 3/10
+416s - loss: 0.1603 - acc: 0.9513 - val_loss: 0.1237 - val_acc: 0.9592
+Epoch 4/10
+416s - loss: 0.1266 - acc: 0.9609 - val_loss: 0.1165 - val_acc: 0.9629
+Epoch 5/10
+416s - loss: 0.1055 - acc: 0.9677 - val_loss: 0.0830 - val_acc: 0.9739
+Epoch 6/10
+416s - loss: 0.0918 - acc: 0.9719 - val_loss: 0.0698 - val_acc: 0.9765
+Epoch 7/10
+415s - loss: 0.0803 - acc: 0.9746 - val_loss: 0.0704 - val_acc: 0.9773
+Epoch 8/10
+417s - loss: 0.0708 - acc: 0.9776 - val_loss: 0.0688 - val_acc: 0.9792
+Epoch 9/10
+415s - loss: 0.0661 - acc: 0.9792 - val_loss: 0.0686 - val_acc: 0.9774
+Epoch 10/10
+415s - loss: 0.0592 - acc: 0.9811 - val_loss: 0.0618 - val_acc: 0.9799
+Saving model: /Users/sekunder/python/BMM2017/model/model20170829151236.h5
+
+Test loss: 0.0618131687981
+Test accuracy (%): 97.99
+------------------------------  END TRAINING  ------------------------------
