@@ -8,6 +8,7 @@ from keras.utils import to_categorical
 from stimulus import build_dataset
 from time import gmtime, strftime
 import os
+import numpy as np
 
 ################################################################################
 ### Misc metadata
@@ -16,6 +17,12 @@ datestring = strftime("%Y%m%d%H%M%S", gmtime())
 
 print "Training network on %s" % datestring
 
+
+output_dir = os.path.join(os.getcwd(),"model")
+if not os.path.isdir(output_dir):
+	print "Creating directory: ", output_dir
+	os.mkdir("model")
+
 ################################################################################
 ### Data loading - MNIST
 ################################################################################
@@ -23,7 +30,7 @@ print "Training network on %s" % datestring
 print "Loading MNIST data for training"
 batch_size = 128
 num_classes = 10
-epochs = 1 # FOR TESTING, only 1 epoch.
+epochs = 2 # FOR TESTING, only 1 epoch.
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -50,9 +57,11 @@ x_test /= 255
 
 # expand canvas and place digits randomly
 print "Before enlarging: x_train.shape: ", x_train.shape
-x_train, obj_pos_train = build_dataset(x_train, img_size=stim_shape, obj_box=(0,0,32,32), data_format=K.image_data_format())
+x_train, obj_pos_train = build_dataset(x_train, img_size=stim_shape, obj_box=(0,0,64,64), data_format=K.image_data_format())
 x_test, obj_pos_test = build_dataset(x_test, img_size=stim_shape, data_format=K.image_data_format())
 print "After englarging: x_train.shape: ", x_train.shape
+np.save(os.path.join(output_dir, datestring + "_obj_pos_train"), obj_pos_train)
+np.save(os.path.join(output_dir, datestring + "_obj_pos_test"), obj_pos_test)
 
 # convert class vectors to one-hot class matrices
 y_train = to_categorical(y_train, num_classes)
@@ -85,19 +94,18 @@ model = Sequential([
 
 model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['accuracy'])
 
-print "Model layers: ", model.layers
+print "Model layers: ", model.summary()
 
 ################################################################################
 ### Fit the model
 ################################################################################
 
-model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(x_test, y_test))
+model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=2, validation_data=(x_test, y_test))
 
-output_dir = os.path.join(os.getcwd(),"model")
 print "Attempting to save weights to ", os.path.join(output_dir, datestring)
 model.save_weights(os.path.join(output_dir,datestring + ".h5"))
 
-score = model.evaluate(x_test, y_test, verbose=1)
+score = model.evaluate(x_test, y_test, verbose=2)
 print ""
 print "Test loss:", score[0]
 print "Test accuracy (%):", score[1] * 100
