@@ -2,7 +2,7 @@ import keras
 import keras.backend as K
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Conv2D, Flatten, MaxPooling2D
-from keras.optimizers import SGD, Adadelta
+from keras.optimizers import Adam
 from keras.datasets import mnist
 from keras.utils import to_categorical
 from stimulus import build_dataset
@@ -94,7 +94,7 @@ model = Sequential([
 	Activation('softmax')
 ])
 
-model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 print "Model layers: ", model.summary()
 
