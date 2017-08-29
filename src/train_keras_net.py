@@ -1,10 +1,11 @@
 import keras
 import keras.backend as K
 from keras.models import Sequential
-from keras.layers import Dense, Activation, Conv2D, Flatten, MaxPooling2D
+from keras.layers import Dense, Activation, Conv2D, Flatten, MaxPooling2D, Dropout
 from keras.optimizers import Adam, Adadelta
 from keras.datasets import mnist
 from keras.utils import to_categorical
+from keras.callbacks import TensorBoard
 from stimulus import build_dataset
 from time import gmtime, strftime
 import datetime
@@ -19,11 +20,11 @@ import numpy as np
 datestring = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 model_file_format = "h5"
 
-print "========== BEGIN TRAINING =========="
+print "============================== BEGIN TRAINING =============================="
 print "Training network on %s" % datestring
 
 
-model_output_dir = os.path.join(os.getcwd(), "model")
+model_output_dir = os.path.join(os.getcwd(), "model", datestring)
 if not os.path.isdir(model_output_dir):
 	print "Creating directory: ", model_output_dir
 	os.mkdir("model")
@@ -85,7 +86,7 @@ y_test = to_categorical(y_test, num_classes)
 n_filter1 = 16;  n_filter2 = 32;  n_filter3 = 64
 k_size1 = (3,3); k_size2 = (3,3); k_size3 = (3,3)
 stride1 = (1,1); stride2 = (1,1); stride3 = (1,1)
-
+dropout_rate = 0.25
 n_dense = 1024
 
 model = Sequential([
@@ -95,6 +96,7 @@ model = Sequential([
 	MaxPooling2D(),
 	Conv2D(n_filter3, k_size3, strides=stride3, padding='same', activation='relu'),
 	MaxPooling2D(),
+	Dropout(dropout_rate),
 	Flatten(),
 	Dense(n_dense),
 	Dense(num_classes),
@@ -108,16 +110,28 @@ print "--- MODEL SUMMARY ---"
 print model.summary()
 
 ################################################################################
+### Callbacks
+################################################################################
+
+callbacks = [
+	TensorBoard(log_dir="logs",histogram_freq=1, batch_size=batch_size, write_images=True)
+]
+
+################################################################################
 ### Fit the model
 ################################################################################
 
-print "Training network [batch size: %d, epochs: %d]" % batch_size, epochs
+print "Training network [batch size: %d, epochs: %d]" % (batch_size, epochs)
 sys.stdout.flush() # otherwise, buffer doesn't flush until training is complete, making it difficult to tell if it's running.
 
-model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=2, validation_data=(x_test, y_test))
+model.fit(x_train, y_train,
+		  batch_size=batch_size, epochs=epochs,
+		  validation_data=(x_test, y_test),
+		  callbacks=callbacks,
+		  verbose=2)
 
-weights_filename = os.path.join(model_output_dir, "weights" + datestring + "." + model_file_format)
-model_filename = os.path.join(model_output_dir, "model" + datestring + "." + model_file_format)
+weights_filename = os.path.join(model_output_dir, "weights_" + datestring + "." + model_file_format)
+model_filename = os.path.join(model_output_dir, "model_" + datestring + "." + model_file_format)
 # print "Attempting to save weights to ", os.path.join(model_output_dir, datestring + "weights")
 # model.save_weights(os.path.join(model_output_dir, datestring + ".h5"))
 print "Saving model:", model_filename
@@ -127,7 +141,7 @@ score = model.evaluate(x_test, y_test, verbose=2)
 print ""
 print "Test loss:", score[0]
 print "Test accuracy (%):", score[1] * 100
-print "----------  END TRAINING  ----------"
+print "------------------------------  END TRAINING  ------------------------------"
 
 
 
