@@ -25,9 +25,12 @@ print "Training network on %s" % datestring
 
 
 model_output_dir = os.path.join(os.getcwd(), "model", datestring)
-if not os.path.isdir(model_output_dir):
-	print "Creating directory: ", model_output_dir
+if not os.path.isdir("model"):
+	print "Creating directory:", os.path.join(os.getcwd(), "model")
 	os.mkdir("model")
+if not os.path.isdir(os.path.join("model",datestring)):
+	print "Creating directory:", os.path.join(os.getcwd(), "model", datestring)
+	os.mkdir(os.path.join("model",datestring))
 
 ################################################################################
 ### Data loading - MNIST
@@ -86,7 +89,7 @@ y_test = to_categorical(y_test, num_classes)
 n_filter1 = 16;  n_filter2 = 32;  n_filter3 = 64
 k_size1 = (3,3); k_size2 = (3,3); k_size3 = (3,3)
 stride1 = (1,1); stride2 = (1,1); stride3 = (1,1)
-dropout_rate = 0.25
+dropout_rate = 0.5
 n_dense = 1024
 
 model = Sequential([
@@ -108,6 +111,7 @@ model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['a
 
 print "--- MODEL SUMMARY ---"
 print model.summary()
+print "Extra info: [dropout rate: %f]" % dropout_rate
 
 ################################################################################
 ### Callbacks
@@ -121,7 +125,7 @@ callbacks = [
 ### Fit the model
 ################################################################################
 
-print "Training network [batch size: %d, epochs: %d]" % (batch_size, epochs)
+print "Training network [batch size: %d, epochs: %d]..." % (batch_size, epochs)
 sys.stdout.flush() # otherwise, buffer doesn't flush until training is complete, making it difficult to tell if it's running.
 
 model.fit(x_train, y_train,

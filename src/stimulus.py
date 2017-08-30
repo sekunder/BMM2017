@@ -91,7 +91,8 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 	new_data = np.zeros((n_batch,)+img_size+(1,), dtype=data.dtype)
 	obj_centers = np.zeros((n_batch,2))
 	for batch in range(n_batch):
-		if obj_pos == 'random':
+		# if obj_pos == 'random':
+		if type(obj_pos) is str:
 			# place object at random
 			x = obj_box[0] + rand.randint(obj_box[2] - obj_w)
 			y = obj_box[1] + rand.randint(obj_box[3] - obj_h)
