@@ -79,8 +79,8 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 	"""Take a given data set (e.g. a stack of images) and embed them in a larger canvas."""
 	n_batch = data.shape[0]
 	if data_format == 'channels_last':
-		# obj_w,obj_h = data.shape[1:3]
-		obj_w,obj_h = (28, 28) # hardcoding this to check why shapes are weird
+		obj_w,obj_h = data.shape[1:3]
+		# obj_w,obj_h = (28, 28) # hardcoding this to check why shapes are weird
 		w_idx, h_idx = 1,2
 	else:
 		print("Channels first, aborting")
