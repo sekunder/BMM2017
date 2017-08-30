@@ -128,3 +128,71 @@ Saving model: /Users/sekunder/python/BMM2017/model/model20170829151236.h5
 Test loss: 0.0618131687981
 Test accuracy (%): 97.99
 ------------------------------  END TRAINING  ------------------------------
+============================== BEGIN TRAINING ==============================
+Training network on 20170829181155
+Creating directory: /Users/sekunder/python/BMM2017/model/20170829181155
+Loading MNIST data for training
+Embedding images into 64 x 64 canvases
+Before enlarging: x_train.shape: (60000, 28, 28, 1)
+After englarging: x_train.shape: (60000, 64, 64, 1)
+Saving training object positions: /Users/sekunder/python/BMM2017/model/20170829181155/obj_pos_train_20170829181155
+Saving testing object positions:  /Users/sekunder/python/BMM2017/model/20170829181155/obj_pos_test_20170829181155
+--- MODEL SUMMARY ---
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 64, 64, 16)        160       
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 32, 32, 16)        0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 32, 32, 32)        4640      
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 16, 16, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 16, 16, 64)        18496     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 8, 8, 64)          0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 8, 8, 64)          0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 4096)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 1024)              4195328   
+_________________________________________________________________
+dense_2 (Dense)              (None, 10)                10250     
+_________________________________________________________________
+activation_1 (Activation)    (None, 10)                0         
+=================================================================
+Total params: 4,228,874
+Trainable params: 4,228,874
+Non-trainable params: 0
+_________________________________________________________________
+None
+Extra info: [dropout rate: 0.500000]
+Training network [batch size: 128, epochs: 10]...
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/10
+512s - loss: 1.1144 - acc: 0.6165 - val_loss: 0.3185 - val_acc: 0.9019
+Epoch 2/10
+489s - loss: 0.2858 - acc: 0.9141 - val_loss: 0.1649 - val_acc: 0.9495
+Epoch 3/10
+489s - loss: 0.2072 - acc: 0.9377 - val_loss: 0.1170 - val_acc: 0.9631
+Epoch 4/10
+490s - loss: 0.1724 - acc: 0.9472 - val_loss: 0.1030 - val_acc: 0.9685
+Epoch 5/10
+489s - loss: 0.1492 - acc: 0.9542 - val_loss: 0.0910 - val_acc: 0.9713
+Epoch 6/10
+489s - loss: 0.1368 - acc: 0.9586 - val_loss: 0.0918 - val_acc: 0.9690
+Epoch 7/10
+489s - loss: 0.1242 - acc: 0.9608 - val_loss: 0.0720 - val_acc: 0.9759
+Epoch 8/10
+488s - loss: 0.1139 - acc: 0.9650 - val_loss: 0.0699 - val_acc: 0.9790
+Epoch 9/10
+489s - loss: 0.1076 - acc: 0.9665 - val_loss: 0.0676 - val_acc: 0.9783
+Epoch 10/10
+488s - loss: 0.1021 - acc: 0.9678 - val_loss: 0.0654 - val_acc: 0.9791
+Saving model: /Users/sekunder/python/BMM2017/model/20170829181155/model_20170829181155.h5
+
+Test loss: 0.0653983353178
+Test accuracy (%): 97.91
+------------------------------  END TRAINING  ------------------------------
