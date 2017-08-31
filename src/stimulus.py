@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 import numpy as np
 from numpy import random as rand
+from numpy.random import RandomState
 import os
 
 class StimulusGenerator:
@@ -75,9 +76,10 @@ def generate_stimulus_batch(n_stimuli=1, sg=StimulusGenerator(), bg=127, obj_pla
 	for n in range(n_stimuli):
 		img = sg.generate_grayscale(bg, obj_box)
 
-def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64), data_format='channels_last'):
+def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64), data_format='channels_last', bg_noise=None, rand_seed=173451):
 	"""Take a given data set (e.g. a stack of images) and embed them in a larger canvas."""
 	n_batch = data.shape[0]
+	RandomState.seed(rand_seed) # should ensure that positions/bg noise are identical each time
 	if data_format == 'channels_last':
 		obj_w,obj_h = data.shape[1:3]
 		# obj_w,obj_h = (28, 28) # hardcoding this to check why shapes are weird
@@ -90,6 +92,7 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 
 	new_data = np.zeros((n_batch,)+img_size+(1,), dtype=data.dtype)
 	obj_centers = np.zeros((n_batch,2))
+	# place objects in larger canvas, either at random or using specified positions
 	for batch in range(n_batch):
 		# if obj_pos == 'random':
 		if type(obj_pos) is str:
@@ -105,5 +108,13 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 			x,y = obj_pos
 		new_data[batch,x:(x+obj_w),y:(y+obj_h),0] = data[batch,:,:,0]
 		obj_centers[batch,:] = [x + obj_w/2, y+obj_h/2]
+	# check if nosie should be added
+	if bg_noise is not None:
+		max_val = data.max()
+		if bg_noise == 'uniform':
+			bg = max_val * rand.random(new_data.shape).astype(new_data.dtype)
+			# set each pixel to be max(current value, bg value)
+			new_data[new_data < bg] = bg[new_data < bg]
+
 
 	return new_data, obj_centers
