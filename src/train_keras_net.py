@@ -6,12 +6,14 @@ from keras.optimizers import Adam, Adadelta
 from keras.datasets import mnist
 from keras.utils import to_categorical
 from keras.callbacks import TensorBoard
-from stimulus import build_dataset
 from time import gmtime, strftime
 import datetime
 import os
 import sys
 import numpy as np
+import json
+
+from stimulus import build_dataset
 
 ################################################################################
 ### Misc metadata
@@ -46,7 +48,12 @@ epochs = 10 # FOR TESTING, only 1 epoch.
 # set shapes appropriately
 stim_shape = (64,64)
 channels = 1 # luminance only
+bg_noise = None
 print "Embedding images into %d x %d canvases" % stim_shape
+if bg_noise is not None:
+	print "* bg_noise is " + bg_noise
+else:
+	print "* no background noise"
 
 # reminder to self - adding tuples together concatenates them in python
 if K.image_data_format() == 'channels_first':
@@ -66,8 +73,8 @@ x_test /= 255
 
 # expand canvas and place digits randomly
 print "Before enlarging: x_train.shape:", x_train.shape
-x_train, obj_pos_train = build_dataset(x_train, img_size=stim_shape, obj_box=(0,0,64,64), data_format=K.image_data_format())
-x_test, obj_pos_test = build_dataset(x_test, img_size=stim_shape, data_format=K.image_data_format())
+x_train, obj_pos_train = build_dataset(x_train, img_size=stim_shape, obj_box=(0,0,64,64), data_format=K.image_data_format(), bg_noise=bg_noise)
+x_test, obj_pos_test = build_dataset(x_test, img_size=stim_shape, data_format=K.image_data_format(), bg_noise=bg_noise)
 print "After englarging: x_train.shape:", x_train.shape
 obj_pos_train_filename = "obj_pos_train_" + datestring
 obj_pos_test_filename = "obj_pos_test_" + datestring
@@ -145,6 +152,13 @@ score = model.evaluate(x_test, y_test, verbose=2)
 print ""
 print "Test loss:", score[0]
 print "Test accuracy (%):", score[1] * 100
+
+print "Saving metadata:", os.path.join(model_output_dir, "metadata_" + datestring + ".json")
+md_file = open(os.path.join(model_output_dir, "metadata_" + datestring + ".json"), mode='w')
+metadata = {"bg_noise":bg_noise}
+json.dump(metadata, md_file)
+md_file.close()
+
 print "------------------------------  END TRAINING  ------------------------------"
 
 
