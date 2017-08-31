@@ -48,7 +48,7 @@ epochs = 10 # FOR TESTING, only 1 epoch.
 # set shapes appropriately
 stim_shape = (64,64)
 channels = 1 # luminance only
-bg_noise = None
+bg_noise = 'normal' # options are None, 'uniform', 'normal'
 print "Embedding images into %d x %d canvases" % stim_shape
 if bg_noise is not None:
 	print "* bg_noise is " + bg_noise
