@@ -1,0 +1,29 @@
+============================== BEGIN ATTENTION ==============================
+* Processing model 20170829151236
+* Loading MNIST data
+Base network accuracy on two-digit stimuli (correctly identifies one digit): 90.60
+Test data, object position prediction. Mean, std: 1.92982324094 1.23486743556
+Double stimulus, 1st object, prediction. mean, std: 3.00414352312 1.86481723212
+Double stimulus, 2nd object, prediction. mean, std: 2.96842321184 1.86128324693
+Double stimulus, prediction difference from midpoint. mean, std: 10.8578968242 5.72653621947
+With attention, rho = 1.000000:  accuracy is 53.10 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.100000:  accuracy is 88.34 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.010000:  accuracy is 90.54 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.001000:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.000100:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.000010:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.000001:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.000000:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.000000:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+With attention, rho = 0.000000:  accuracy is 90.60 %
+Compare with no attention: accuracy is 90.60 %
+------------------------------  END ATTENTION  ------------------------------

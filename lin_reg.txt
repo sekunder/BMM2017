@@ -1,0 +1,128 @@
+============================== BEGIN ANALYSIS ==============================
+* Processing model 20170829151236
+* Loading MNIST data
+  Test and train stimuli successfully loaded
+* Computing confusion matrix
+* Linear regressions
+  Examining layer: max_pooling2d_3
+  Layer output: Tensor("max_pooling2d_3/MaxPool:0", shape=(?, 8, 8, 64), dtype=float32)
+  Using subsample of 10080 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0108	568.2717 |   1.0614	  7.4942
+  min, max | mean, std of position error on testing data:    0.0171	212809637926.3758 | 123037982.2259	3858192620.9259
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_max_pooling2d_3.npz
+  Examining layer: dense_1
+  Layer output: Tensor("dense_1/BiasAdd:0", shape=(?, 1024), dtype=float32)
+  Using subsample of 9819 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0020	 10.9772 |   1.7326	  1.0774
+  min, max | mean, std of position error on testing data:    0.0198	 11.2982 |   1.9265	  1.2378
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_dense_1.npz
+  Examining layer: dense_2
+  Layer output: Tensor("dense_2/BiasAdd:0", shape=(?, 10), dtype=float32)
+  Using subsample of 9972 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.1201	 32.2071 |  12.6770	  5.4556
+  min, max | mean, std of position error on testing data:    0.3332	 29.6976 |  12.6946	  5.4614
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_dense_2.npz
+------------------------------  END ANALYSIS  ------------------------------
+============================== BEGIN ANALYSIS ==============================
+* Processing model 20170829151236
+* Loading MNIST data
+  Test and train stimuli successfully loaded
+* Computing confusion matrix
+* Linear regressions
+  Examining layer: max_pooling2d_1
+  Layer output: Tensor("max_pooling2d_1/MaxPool:0", shape=(?, 32, 32, 16), dtype=float32)
+  Using subsample of 9944 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0000	  0.0000 |   0.0000	  0.0000
+  min, max | mean, std of position error on testing data:    0.0474	120.4984 |  12.2402	 10.6799
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_max_pooling2d_1.npz
+
+  Examining layer: max_pooling2d_2
+  Layer output: Tensor("max_pooling2d_2/MaxPool:0", shape=(?, 16, 16, 32), dtype=float32)
+  Using subsample of 10133 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0051	35280.2529 |  76.7942	710.3611
+  min, max | mean, std of position error on testing data:    0.0133	562221947690.8979 | 485389731.3119	7938795008.6890
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_max_pooling2d_2.npz
+
+  Examining layer: max_pooling2d_3
+  Layer output: Tensor("max_pooling2d_3/MaxPool:0", shape=(?, 8, 8, 64), dtype=float32)
+  Using subsample of 9913 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0110	9785.1511 |   2.0300	 98.9697
+  min, max | mean, std of position error on testing data:    0.0154	6845068371698.6357 | 1301910438.5183	71373226229.9240
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_max_pooling2d_3.npz
+
+  Examining layer: dense_1
+  Layer output: Tensor("dense_1/BiasAdd:0", shape=(?, 1024), dtype=float32)
+  Using subsample of 9899 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0076	  9.3668 |   1.7203	  1.0570
+  min, max | mean, std of position error on testing data:    0.0096	 12.2099 |   1.9298	  1.2349
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_dense_1.npz
+
+  Examining layer: dense_2
+  Layer output: Tensor("dense_2/BiasAdd:0", shape=(?, 10), dtype=float32)
+  Using subsample of 10128 training samples to fit linear regression
+  Fitting linear regression on layer output vs. object position
+  min, max | mean, std of position error on training data:   0.0665	 30.1340 |  12.7137	  5.5337
+  min, max | mean, std of position error on testing data:    0.1348	 29.1624 |  12.6904	  5.4711
+  Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170829151236/linreg_coeff_dense_2.npz
+
+------------------------------  END ANALYSIS  ------------------------------
+============================== BEGIN ANALYSIS ==============================
+* Processing model 20170831123503
+* Loading MNIST data
+  Test and train stimuli successfully loaded
+* Computing confusion matrix
+* Linear regressions
+  Examining layer: input (raw pixels)
+    layer output: 64 x 64 x 1 image
+    Using subsample of 10061 training samples to fit linear regression
+    min, max | mean, std of position error on training data:   0.0614	 17.3016 |   4.6934	  2.5459
+    min, max | mean, std of position error on testing data:    0.1135	 31.3117 |   7.7768	  4.2492
+    Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170831123503/linreg_coeff_pixels.npz
+  Examining layer: max_pooling2d_1
+    Layer output: Tensor("max_pooling2d_1/MaxPool:0", shape=(?, 32, 32, 16), dtype=float32)
+    Using subsample of 10065 training samples to fit linear regression
+    Fitting linear regression on layer output vs. object position
+    min, max | mean, std of position error on training data:   0.0000	  0.0000 |   0.0000	  0.0000
+    min, max | mean, std of position error on testing data:    0.0618	 36.1252 |   9.7659	  5.1522
+    Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170831123503/linreg_coeff_max_pooling2d_1.npz
+
+  Examining layer: max_pooling2d_2
+    Layer output: Tensor("max_pooling2d_2/MaxPool:0", shape=(?, 16, 16, 32), dtype=float32)
+    Using subsample of 9969 training samples to fit linear regression
+    Fitting linear regression on layer output vs. object position
+    min, max | mean, std of position error on training data:   0.0128	  6.8071 |   1.8267	  1.0078
+    min, max | mean, std of position error on testing data:    0.0839	167327489177.2403 | 78311412.6407	2438169560.0292
+    Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170831123503/linreg_coeff_max_pooling2d_2.npz
+
+  Examining layer: max_pooling2d_3
+    Layer output: Tensor("max_pooling2d_3/MaxPool:0", shape=(?, 8, 8, 64), dtype=float32)
+    Using subsample of 10030 training samples to fit linear regression
+    Fitting linear regression on layer output vs. object position
+    min, max | mean, std of position error on training data:   0.0003	 22.4330 |   2.5880	  1.9523
+    min, max | mean, std of position error on testing data:    0.0414	40191056184.9366 | 10959500.7351	592484616.2293
+    Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170831123503/linreg_coeff_max_pooling2d_3.npz
+
+  Examining layer: dense_1
+    Layer output: Tensor("dense_1/BiasAdd:0", shape=(?, 1024), dtype=float32)
+    Using subsample of 10067 training samples to fit linear regression
+    Fitting linear regression on layer output vs. object position
+    min, max | mean, std of position error on training data:   0.0317	 21.7949 |   3.4611	  2.6281
+    min, max | mean, std of position error on testing data:    0.0504	 22.6898 |   3.7351	  2.6830
+    Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170831123503/linreg_coeff_dense_1.npz
+
+  Examining layer: dense_2
+    Layer output: Tensor("dense_2/BiasAdd:0", shape=(?, 10), dtype=float32)
+    Using subsample of 10014 training samples to fit linear regression
+    Fitting linear regression on layer output vs. object position
+    min, max | mean, std of position error on training data:   0.1718	 30.8254 |  12.0730	  5.4871
+    min, max | mean, std of position error on testing data:    0.1400	 31.6495 |  12.0698	  5.5101
+    Saving regression coefficients to /Users/sekunder/python/BMM2017/analysis/20170831123503/linreg_coeff_dense_2.npz
+
+------------------------------  END ANALYSIS  ------------------------------
