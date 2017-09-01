@@ -123,23 +123,26 @@ def build_dataset(data, img_size=(64,64), obj_pos='random', obj_box=(0,0,64,64),
 
 	return new_data, obj_centers
 
+
 def stim_pairs(data, img_size=(64,64), obj_1_pos='random', obj_2_pos='random', bg_noise=None, rand_seed=1700):
 	"""Produce images with pairs of digits. Digits will be placed in two separate quadrants"""
+	# TODO other options for bg_noise
+	# TODO other options for obj_position
 	n_batch = data.shape[0]
 	RandomState(rand_seed)
 	# assume channels last
 	obj_w, obj_h = data.shape[1:3]
 
-	new_data = np.zeros((n_batch,) + img_size + (1,), dtype=data.dtype)
+	new_data = np.zeros((n_batch/2,) + img_size + (1,), dtype=data.dtype)
 	obj_ids = np.zeros((n_batch/2, 2), dtype='int')
 	obj_centers = np.zeros((n_batch/2, 2, 2))
 	for idx in range(0, n_batch, 2):
 		# for now assume random placement
 		q1,q2 = rand.choice(4, 2, replace=False)
-		x_1 = 32 * ((q1 & 0x2) >> 1) + rand.randint(img_size[0] - obj_w)
-		y_1 = 32 * (q1 & 0x1) + rand.randint(img_size[1] - obj_h)
-		x_2 = 32 * ((q2 & 0x2) >> 1) + rand.randint(img_size[0] - obj_w)
-		y_2 = 32 * (q2 & 0x1) + rand.randint(img_size[1] - obj_h)
+		x_1 = 32 * ((q1 & 0x2) >> 1) + rand.randint(img_size[0]/2 - obj_w)
+		y_1 = 32 * (q1 & 0x1) + rand.randint(img_size[1]/2 - obj_h)
+		x_2 = 32 * ((q2 & 0x2) >> 1) + rand.randint(img_size[0]/2 - obj_w)
+		y_2 = 32 * (q2 & 0x1) + rand.randint(img_size[1]/2 - obj_h)
 		new_data[idx/2,x_1:(x_1 + obj_w), y_1:(y_1 + obj_h),0] = data[idx,:,:,0]
 		new_data[idx/2,x_2:(x_2 + obj_w), y_2:(y_2 + obj_h),0] = data[idx+1,:,:,0]
 		obj_centers[idx/2,0,:] = [x_1 + obj_w/2, y_1 + obj_h/2]

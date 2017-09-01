@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import json
 
 from stimulus import build_dataset
+from util import diff_norm
 
 ################################################################################
 ### Set up, load model
@@ -121,10 +122,6 @@ plt.savefig(os.path.join(os.getcwd(), "analysis", datestring,"base_confusion_mat
 ################################################################################
 
 print "* Linear regressions"
-
-def diff_norm(X, Y):
-	"""Returns an array with the euclidean norm of the differences between the rows of X and the rows of Y"""
-	return np.sqrt(np.sum((X - Y)**2,1))
 
 
 print "  Examining layer: input (raw pixels)"
